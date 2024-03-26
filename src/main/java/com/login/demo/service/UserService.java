@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -32,10 +33,12 @@ public class UserService {
                 this.passwordEncoder.encode(userDTO.getPassword()),
                 userDTO.getPhoneNumber(),
                 userDTO.getCity(),
-                userDTO.getCountry()
+                userDTO.getCountry(),
+                userDTO.getRole()
         );
-        var email = userRepository.findByEmail(userDTO.getEmail());
-        if(email==null){
+        Optional<User> email = userRepository.findByEmail(userDTO.getEmail());
+        logger.info("this user : {}",email.isPresent());
+        if(email.isEmpty()){
             userRepository.save(user);
             commonResponse.setPayload(Collections.singletonList(user));
             commonResponse.setStatus(true);

@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Optional;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -25,13 +27,15 @@ public class User {
     private String phoneNumber;
     private String city;
     private String country;
+    private String role;
 
-    public User(String name,String email,String password,String phoneNumber,String city,String country){
+    public User(String name,String email,String password,String phoneNumber,String city,String country,String role){
         this.name = name;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.city = city;
         this.country = country;
+        this.role=role;
     }
 }

@@ -17,4 +17,5 @@ public class UserDTO {
     private String phoneNumber;
     private String city;
     private String country;
+    private String role;
 }

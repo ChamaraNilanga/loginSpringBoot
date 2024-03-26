@@ -2,6 +2,7 @@ package com.login.demo.service;
 
 import com.login.demo.dto.UserDTO;
 import com.login.demo.dto.requestDTO.AuthRequestDTO;
+import com.login.demo.model.User;
 import com.login.demo.repository.UserRepository;
 import com.login.demo.util.CommonResponse;
 import org.slf4j.Logger;
@@ -11,10 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 
@@ -32,11 +30,11 @@ public class AuthServcice {
 
     public CommonResponse loginUser (AuthRequestDTO authRequestDTO) {
         CommonResponse commonResponse = new CommonResponse();
-        var email = userRepository.findByEmail(authRequestDTO.getEmail());
+        Optional<User> email = userRepository.findByEmail(authRequestDTO.getEmail());
         if(email==null){
             commonResponse.setMessage("Email Not Exists");
         }else{
-            var isMatch = this.passwordEncoder.matches(authRequestDTO.getPassword(), email.getPassword());
+            var isMatch = this.passwordEncoder.matches(authRequestDTO.getPassword(), email.get().getPassword());
             if(isMatch){
                 var token = jwtService.generateJWTToken(authRequestDTO);
                 Map<String, String> tokenMap = new HashMap<>();
